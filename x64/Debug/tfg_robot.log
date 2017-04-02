@@ -1,0 +1,16 @@
+﻿  main.cpp
+c:\users\asier\desktop\aserrin\carrera\4_cuarto\tfg_ia\bullet3dtest\bullet3-2.86\src\linearmath\btidebugdraw.h(169): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+c:\users\asier\desktop\aserrin\carrera\4_cuarto\tfg_ia\bullet3dtest\bullet3-2.86\src\linearmath\btidebugdraw.h(170): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+c:\users\asier\desktop\aserrin\carrera\4_cuarto\tfg_ia\bullet3dtest\bullet3-2.86\src\linearmath\btidebugdraw.h(171): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+c:\users\asier\desktop\aserrin\carrera\4_cuarto\tfg_ia\bullet3dtest\bullet3-2.86\examples\commoninterfaces\commongraphicsappinterface.h(69): warning C4305: '=': truncation from 'double' to 'float'
+c:\users\asier\desktop\aserrin\carrera\4_cuarto\tfg_ia\bullet3dtest\bullet3-2.86\examples\commoninterfaces\commongraphicsappinterface.h(70): warning C4305: '=': truncation from 'double' to 'float'
+c:\users\asier\desktop\aserrin\carrera\4_cuarto\tfg_ia\bullet3dtest\bullet3-2.86\examples\commoninterfaces\commongraphicsappinterface.h(71): warning C4305: '=': truncation from 'double' to 'float'
+c:\users\asier\desktop\aserrin\carrera\4_cuarto\tfg_ia\bullet3dtest\bullet3-2.86\examples\commoninterfaces\commongraphicsappinterface.h(194): warning C4305: 'argument': truncation from 'double' to 'const b3Scalar'
+c:\users\asier\desktop\aserrin\carrera\4_cuarto\tfg_ia\bullet3dtest\bullet3-2.86\examples\commoninterfaces\commongraphicsappinterface.h(200): warning C4305: 'argument': truncation from 'double' to 'const b3Scalar'
+c:\users\asier\desktop\aserrin\carrera\4_cuarto\tfg_ia\bullet3dtest\bullet3-2.86\examples\commoninterfaces\commonrigidbodybase.h(69): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+c:\users\asier\desktop\aserrin\carrera\4_cuarto\tfg_ia\bullet3dtest\tfg_robot\tfg_robot\main.cpp(7): warning C4005: 'GLEW_STATIC': macro redefinition
+  c:\users\asier\desktop\aserrin\carrera\4_cuarto\tfg_ia\bullet3dtest\tfg_robot\tfg_robot\main.cpp(7): note: command-line arguments:  see previous definition of 'GLEW_STATIC'
+c:\users\asier\desktop\aserrin\carrera\4_cuarto\tfg_ia\bullet3dtest\tfg_robot\tfg_robot\main.cpp(13): warning C4305: 'initializing': truncation from 'double' to 'btScalar'
+c:\users\asier\desktop\aserrin\carrera\4_cuarto\tfg_ia\bullet3dtest\tfg_robot\tfg_robot\main.cpp(159): warning C4244: 'argument': conversion from 'double' to 'const btScalar', possible loss of data
+  tfg_robot.vcxproj -> C:\Users\asier\Desktop\Aserrin\Carrera\4_CUARTO\TFG_IA\Bullet3DTest\x64\Debug\tfg_robot.exe
+  tfg_robot.vcxproj -> C:\Users\asier\Desktop\Aserrin\Carrera\4_CUARTO\TFG_IA\Bullet3DTest\x64\Debug\tfg_robot.pdb (Partial PDB)

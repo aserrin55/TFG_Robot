@@ -2,16 +2,17 @@
 #include "../../bullet3-2.86/src/btBulletDynamicsCommon.h"
 #include "../../bullet3-2.86/examples/CommonInterfaces/CommonRigidBodyBase.h"
 #include "Robot.h"
+#include <math.h>
 #pragma comment(lib,"opengl32.lib")
 
 #define GLEW_STATIC
 
-#define DT 1.f / 60.f
-#define CNT_FORCE -5.0
+#define DT 1.f / 20.f
+#define CNT_FORCE 2.0;
 double force_Robot2X = CNT_FORCE;
 double force_Robot2Y = CNT_FORCE;
-btScalar theta = -0.22;
-
+btScalar theta = 2.0;
+btRigidBody* Robot2body;
 
 struct MoveBox : public CommonRigidBodyBase
 {
@@ -43,7 +44,8 @@ void MoveBox::initPhysics()
 	m_guiHelper->createPhysicsDebugDrawer(m_dynamicsWorld);
 
 	if (m_dynamicsWorld->getDebugDrawer())
-		m_dynamicsWorld->getDebugDrawer()->setDebugMode(btIDebugDraw::DBG_DrawWireframe + btIDebugDraw::DBG_DrawContactPoints);
+		m_dynamicsWorld->getDebugDrawer()->setDebugMode(btIDebugDraw::DBG_DrawWireframe + btIDebugDraw::DBG_DrawContactPoints
+		+ btIDebugDraw::DBG_DrawNormals);
 
 	/// inicializamos las formas, la primera el suelo
 	{
@@ -63,7 +65,7 @@ void MoveBox::initPhysics()
 		m_collisionShapes.push_back(colShape);
 		btTransform startTransform;
 		startTransform.setIdentity();
-		btScalar	mass(1.5f);
+		btScalar	mass(0.5f);
 		bool isDynamic = (mass != 0.f);
 		btVector3 localInertia(0, 0, 0);
 		if (isDynamic)
@@ -106,15 +108,15 @@ void MoveBox::initPhysics()
 		robot2startTransform.setOrigin(btVector3(3, 0.0, 2.0));
 
 		// if mass != 0.f object is dynamic
-		btScalar robot2mass(1.1f);
+		btScalar robot2mass(2.1f);
 		btVector3 robot2localInertia(0, 0, 0);
 		robot2Shape->calculateLocalInertia(robot2mass, robot2localInertia);
 
 		btDefaultMotionState* robot2MotionState = new btDefaultMotionState(robot2startTransform);
 		btRigidBody::btRigidBodyConstructionInfo Robot2rbInfo(robot2mass, robot2MotionState
 			, robot2Shape, robot2localInertia);
-		btRigidBody* Robot2body = new btRigidBody(Robot2rbInfo);
-
+		Robot2body = new btRigidBody(Robot2rbInfo);
+		Robot2body->setActivationState(DISABLE_DEACTIVATION);
 		m_dynamicsWorld->addRigidBody(Robot2body);
 	}
 
@@ -125,54 +127,20 @@ void MoveBox::initPhysics()
 
 void MoveBox::renderScene()
 {
-	m_dynamicsWorld->stepSimulation(DT);
-	int numCollision = m_dynamicsWorld->getDispatcher()->getNumManifolds();
-	for (int j = m_dynamicsWorld->getNumCollisionObjects() - 1; j >= 0; j--)
-	{
-		btCollisionObject* obj = m_dynamicsWorld->getCollisionObjectArray()[j];
-		btRigidBody* body = btRigidBody::upcast(obj);
-		btTransform trans;
-		btVector3 applied_force1;
-		btScalar omega;
-		btVector3 applied_force2;
-		if (body && body->getMotionState())
-		{
-			switch (j)
-			{
-			case 0: //floor, no motion state needed because it won't move
-				trans = obj->getWorldTransform(); break;
-			case 1: //box, we have to take the transformation from the motion state
-					//because it may have been moved
-				break;
+	double omega = 0.2;
 
-			case 2:	//robot, we have to set ourselves the transformation and communicate it to Bullet
-					//through the motion state
-				//m_pRobot1->setAppliedForce(btVector3(25, 0, 0));
-				//m_pRobot1->getAppliedForce(applied_force1);
-				//body->applyCentralForce(applied_force1);
-			{
-				omega = body->getAngularVelocity().getZ();
-				//theta = theta + omega.angle*DT;
-				theta = theta + omega*DT;
-				force_Robot2X = CNT_FORCE * cos(theta);
-				force_Robot2Y = CNT_FORCE * sin(theta);
-				body->applyCentralForce(btVector3(force_Robot2X, 0, force_Robot2Y));
-				break;
-			}
-				
-			case 3:
-				//omega = body->getAngularVelocity();
-				////theta = theta + omega.angle*DT;
-				//btScalar omegaAngle = omega.angle(omega);
-				//theta = theta + omegaAngle*DT;
-				//force_Robot2X = force_Robot2X + cos(theta);
-				//force_Robot2Y = force_Robot2Y + sin(theta);
-				//body->applyCentralForce(btVector3(force_Robot2X,0, force_Robot2Y));
-				break;
+	theta =  theta + omega*DT;
 
-			}
-		}
-	}
+	if (theta > SIMD_2_PI)
+		theta -= SIMD_2_PI;
+
+	force_Robot2X = cos(theta)*CNT_FORCE;
+	force_Robot2Y = sin(theta)*CNT_FORCE;
+
+	Robot2body->setAngularVelocity(btVector3(0.0, omega, 0.0));
+	Robot2body->setLinearVelocity(btVector3(force_Robot2X, 0.0, force_Robot2Y));
+
+	m_dynamicsWorld->stepSimulation(DT,20);
 
 	CommonRigidBodyBase::renderScene();
 
